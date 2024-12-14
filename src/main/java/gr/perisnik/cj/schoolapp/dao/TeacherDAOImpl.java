@@ -5,10 +5,12 @@ import gr.perisnik.cj.schoolapp.service.util.JPAHelper;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 
+import javax.inject.Named;
 import javax.ws.rs.ext.Provider;
 import java.util.List;
 
 @Provider
+@Named("teacherDAOImpl")
 public class TeacherDAOImpl implements ITeacherDAO {
 
     @Override

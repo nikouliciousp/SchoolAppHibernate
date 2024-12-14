@@ -7,11 +7,13 @@ import gr.perisnik.cj.schoolapp.service.exceptions.ServiceException;
 import gr.perisnik.cj.schoolapp.service.util.JPAHelper;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.ws.rs.ext.Provider;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Provider
+@Named("teacherServiceImpl")
 public class TeacherServiceImpl implements ITeacherService {
 
     @Inject
