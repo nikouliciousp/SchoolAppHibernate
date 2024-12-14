@@ -5,6 +5,7 @@ import gr.perisnik.cj.schoolapp.dto.TeacherDTO;
 import gr.perisnik.cj.schoolapp.model.Teacher;
 import gr.perisnik.cj.schoolapp.service.exceptions.ServiceException;
 import gr.perisnik.cj.schoolapp.service.util.JPAHelper;
+import gr.perisnik.cj.schoolapp.service.util.LoggerUtil;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -33,6 +34,8 @@ public class TeacherServiceImpl implements ITeacherService {
             return convertToDTO(teacher);
         } catch (Exception e) {
             rollbackTransaction();
+            LoggerUtil.getCurrentLogger().warning("Insert teacher - " +
+                    "rollback - entity already exist");
             throw new ServiceException("Failed to insert teacher", e);
         } finally {
             closeEntityManager();
@@ -56,6 +59,8 @@ public class TeacherServiceImpl implements ITeacherService {
             return convertToDTO(teacher);
         } catch (Exception e) {
             rollbackTransaction();
+            LoggerUtil.getCurrentLogger().warning("Update teacher - " +
+                    "rollback - entity not found");
             throw new ServiceException("Failed to update teacher", e);
         } finally {
             closeEntityManager();
@@ -70,6 +75,8 @@ public class TeacherServiceImpl implements ITeacherService {
             commitTransaction();
         } catch (Exception e) {
             rollbackTransaction();
+            LoggerUtil.getCurrentLogger().warning("Delete teacher - " +
+                    "rollback - entity not found");
             throw new ServiceException("Failed to delete teacher", e);
         } finally {
             closeEntityManager();
@@ -85,6 +92,8 @@ public class TeacherServiceImpl implements ITeacherService {
             }
             return convertToDTO(teacher);
         } catch (Exception e) {
+            LoggerUtil.getCurrentLogger().warning("Get teacher - " +
+                    "entity not found");
             throw new ServiceException("Failed to retrieve teacher", e);
         } finally {
             closeEntityManager();
@@ -100,6 +109,8 @@ public class TeacherServiceImpl implements ITeacherService {
             }
             return teachers.stream().map(this::convertToDTO).collect(Collectors.toList());
         } catch (Exception e) {
+            LoggerUtil.getCurrentLogger().warning("Get all teachers - " +
+                    "entities not found");
             throw new ServiceException("Failed to retrieve teachers", e);
         } finally {
             closeEntityManager();
@@ -115,6 +126,8 @@ public class TeacherServiceImpl implements ITeacherService {
             }
             return teachers.stream().map(this::convertToDTO).collect(Collectors.toList());
         } catch (Exception e) {
+            LoggerUtil.getCurrentLogger().warning("Get teachers - " +
+                    "entities not found");
             throw new ServiceException("Failed to retrieve teachers by last name", e);
         } finally {
             closeEntityManager();

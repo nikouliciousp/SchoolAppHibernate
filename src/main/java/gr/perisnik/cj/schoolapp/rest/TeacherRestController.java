@@ -6,12 +6,13 @@ import gr.perisnik.cj.schoolapp.service.exceptions.ServiceException;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import javax.ws.rs.core.*;
 import java.util.List;
 
 @Path("/teachers")
 public class TeacherRestController {
+    private static final long EXPIRATION_TIME = 15 * 60 * 1000;
+    private static final String ISSUER = "https://schoolapp.cj.com";
 
     @Inject
     private TeacherServiceImpl teacherService;
@@ -24,7 +25,7 @@ public class TeacherRestController {
     public Response insertTeacher(TeacherDTO teacherDTO) {
         try {
             TeacherDTO createdTeacher = teacherService.insertTeacher(teacherDTO);
-            return Response.status(Response.Status.CREATED).entity(createdTeacher).build();
+            return Response.status(Response.Status.OK).entity(createdTeacher).build();
         } catch (ServiceException e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity("Failed to create teacher: " + e.getMessage())
